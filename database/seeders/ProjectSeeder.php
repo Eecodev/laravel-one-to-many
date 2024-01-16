@@ -27,4 +27,16 @@ class ProjectSeeder extends Seeder
         }
     }
 
+    // public static function storeimage($img, $name)
+    // {
+    //     $url = $img;
+    //     $contents = file_get_contents($url);
+
+
+    //     $name = Str::slug($name, '-') . '.jpeg';
+    //     $path = 'images/' . $name;
+    //     Storage::put('images/' . $name, $contents);
+    //     return $path;
+    // }
+
 }
