@@ -15,11 +15,11 @@
 
     <div class="mb-3">
         <label for="category_id">Select Category</label>
-        <select type="text" class="form-control @error('title') is-invalid @enderror" name="category_id" id="category_id"
+        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id"
             required minlength="3" maxlength="200" value="{{ old('category_id') }}">
             <option value="">Select a Category</option>
             @foreach ($categories as $category)
-                <option value="{{$category_id}}" {{old('category_id') ==$category->id ? 'selected' : ''}}></option>
+                <option value="{{$category_id}}" {{old('category_id') == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
             @endforeach
         </select>
         @error('title')
@@ -44,15 +44,24 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
-    <div class="mb-3">
-        <label for="image">Image</label>
-        <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image')}}">
-        @error('image')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+
+    <div class="d-flex">
+        <div class="me-3">
+            <img id="uploadPreview" width="100" src="https://via.placeholder.com/300x200" alt="">
+        </div>
+        <div class="mb-3">
+            <label for="image">Image</label>
+            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image')}}">
+            @error('image')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <button type="reset" class="btn btn-primary">Reset</button>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="reset" class="btn btn-primary">Reset</button>
+    </div>
+
 
         </form>
     </section>
