@@ -44,7 +44,6 @@ class ProjectController extends Controller
             $img_path = Storage::put('images', $request->image);
             $formData['image'] = $img_path;
         }
-        //dd($img_path);
         $project = Project::create($formData);
         return redirect()->route('admin.projects.show', $project->id);
     }
@@ -73,14 +72,23 @@ class ProjectController extends Controller
     {
         $formData = $request->validated();
         $formData['slug'] = $project->slug;
-        //create slug
-        $slug = Str::slug($formData['title'], '-');
-        //add slug to form data
+
+        if ($project->title !== $formData['title']){
+            //create slug
+            $slug = Str::slug($formData['title'], '-');
+            //add slug to form data
+            $formData['slug'] = $slug;
+        }
+
         // $userId = auth()->id();
+        if($request->hasFile('image')){
+            if ($project->image) {
+                Storage::delete($project->image);
+            }
 
-        // if($request->hasFile('image')){
-
-        // }
+            $img_path = Storage::put('image', $formData['image']);
+            $formData['image'] = $img_path;
+        }
         $project->update($formData);
         return redirect()->route('admin.projects.show', $project->id);
     }
@@ -90,9 +98,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        // if ($project->image){
-        //     Storage::delete($project->image);
-        // }
+        if ($project->image){
+            Storage::delete($project->image);
+        }
 
         $project-delete();
         return to_route('admin.projects.index')->with('message', "$project->title eliminato con successo");
