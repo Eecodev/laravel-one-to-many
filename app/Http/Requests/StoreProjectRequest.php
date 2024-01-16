@@ -22,7 +22,7 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable', 'image'],
+            'image' => ['nullable', 'image', 'max:1024'],
             'title' => ['required', 'min:3', 'max:200', 'unique:projects'],
             'description' => ['nullable'],
             'url' => ['required'],
@@ -34,6 +34,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'image.url' => 'L\'immagine deve essere di tipo url',
+            'image.max' => 'L\'immagine deve essere massimo 1MB',
             'title.required' => 'Il titolo è obbligatorio',
             'title.min' => 'Il titolo deve avere almeno :min caratteri',
             'title.max' => 'Il titolo deve avere massimo :max caratteri',
