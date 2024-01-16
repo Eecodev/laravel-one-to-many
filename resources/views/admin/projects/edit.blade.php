@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <section class="container">
-        <h1>Edit {{$project->title}}</h1>
-        <form action="{{ route('admin.projects.update', $project->id) }}" enctype="multipart/form-data"  method="POST">
+        <h1>Create New Project</h1>
+        <form action="{{ route('admin.projects.update') }}" enctype="multipart/form-data" method="POST">
         @csrf
-        @method('PUT')
      <div class="mb-3">
             <label for="title">Title</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title"
@@ -16,21 +15,20 @@
 
     <div class="mb-3">
         <label for="category_id">Select Category</label>
-        <select type="text" class="form-control @error('title') is-invalid @enderror" name="category_id" id="category_id"
-            required minlength="3" maxlength="200" value="{{ old('category_id') }}">
+        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
             <option value="">Select a Category</option>
             @foreach ($categories as $category)
-                <option value="{{$category_id}}" {{old('category_id', $project->category_id) == $category->id ? 'selected' : ''}}></option>
+                <option value="{{$category_id}}" {{old('category_id', $project->category_id) == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
             @endforeach
         </select>
-        @error('title')
+        @error('category_id')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
 
     <div class="mb-3">
         <label for="url">Url</label>
-        <input type="url" class="form-control @error('url') is-invalid @enderror" name="url" id="url" value="{{old('url')}}">
+        <input type="url" class="form-control @error('url') is-invalid @enderror" name="url" id="url" value="{{old('url', $project->url)}}">
         @error('url')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -39,22 +37,30 @@
     <div class="mb-3">
         <label for="description">Body</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" cols="30" rows="10">
-        {{ old('description', $project->description) }}
+        {{ old('description', $project->description)}}
         </textarea>
         @error('description')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
 
-    <div class="mb-3">
-                <label for="image">Image</label>
-                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image', $project->image)}}">
-                @error('image')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+    <div class="d-flex">
+        <div class="me-3">
+            <img id="uploadPreview" width="100" src="https://via.placeholder.com/300x200" alt="">
+        </div>
+        <div class="mb-3">
+            <label for="image">Image</label>
+            <input class="shadow" type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image', $project->image)}}">
+            @error('image')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <button type="reset" class="btn btn-primary">Reset</button>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="reset" class="btn btn-primary">Reset</button>
+    </div>
+
 
         </form>
     </section>
